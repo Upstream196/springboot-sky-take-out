@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sky.mapper.CategoryMapper">
+
+    <!-- 新增菜品分类 -->
+    <insert id="insertCategory">
+    -- 进行添加操作时，主键为自增时无需添加主键属性
+        insert into category(name,type,sort,status) values
+        <foreach collection="category" item="c" separator=",">
+            (#{c.name},#{c.type},#{c.sort},#{c.status})
+        </foreach>
+
+                                                        
+    </insert>
+
+    <delete id="deleteCategory">
+
+    </delete>
+</mapper>
