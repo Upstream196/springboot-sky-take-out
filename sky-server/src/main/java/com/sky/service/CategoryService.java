@@ -10,4 +10,12 @@ import java.util.List;
 public interface CategoryService {
     //菜品添加
     int insertCategory( List<Category> category);
+
+    //菜品删除
+    int deleteCategory(List<Integer> ids);
+
+    //菜品修改
+    int updateCategory(List<Category> category);
+
+
 }

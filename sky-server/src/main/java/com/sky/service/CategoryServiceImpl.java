@@ -16,4 +16,16 @@ public class CategoryServiceImpl implements CategoryService {
     public int insertCategory(List<Category> category) {
         return categoryMapper.insertCategory(category);//是否返回影响的行数？
     }
+
+    @Override
+    public int deleteCategory(List<Integer> ids) {
+        return categoryMapper.deleteCategory(ids);
+    }
+
+    @Override
+    public int updateCategory(List<Category> category) {
+        return categoryMapper.updateCategory(category);
+    }
+
+
 }

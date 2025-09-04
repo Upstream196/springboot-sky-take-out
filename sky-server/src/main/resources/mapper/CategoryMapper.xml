@@ -15,7 +15,44 @@
                                                         
     </insert>
 
+    <!-- 批量删除菜品   -->
     <delete id="deleteCategory">
-
+        delete from category where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </delete>
+
+    <!-- 批量修改  -->
+    <!-- 修改多列，修改的是对象类型的数组   -->
+    <update id="updateCategory">
+        update  category
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="name =case id" suffix="end,">
+              <foreach collection="list" item="c">
+                  when #{c.id} then #{c.name}
+              </foreach>
+            </trim>
+            <trim prefix="sort =case id" suffix="end,">
+            <foreach collection="list" item="c">
+                when #{c.id} then #{c.sort}
+            </foreach>
+            </trim>
+            <trim prefix="status =case id" suffix="end,">
+                <foreach collection="list" item="c">
+                    when #{c.id} then #{c.status}
+                </foreach>
+            </trim>
+            <trim prefix="type =case id" suffix="end,">
+                <foreach collection="list" item="c">
+                    when #{c.id} then #{c.type}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach collection="list" item="c"  open="(" separator="," close=")">
+            #{c.id}
+        </foreach>
+    </update>
+
 </mapper>

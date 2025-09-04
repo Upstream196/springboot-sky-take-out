@@ -15,5 +15,10 @@ public interface CategoryMapper {
     int insertCategory(@Param("category") List<Category> category);
 
     //根据id删除菜品分类，返回影响的行数
-    int deleteCategory(int id);
+    int deleteCategory(@Param("ids") List<Integer> ids);
+
+    //批量更新菜品(更新名称),返回影响行数,根据id或用户名进行更改
+    int updateCategory(@Param("list") List<Category> category);
+
+
 }
