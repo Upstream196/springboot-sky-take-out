@@ -1,6 +1,7 @@
 package com.sky.controller.adimin;
 
 import com.sky.constant.JwtClaimsConstant;
+import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.entity.Employee;
 import com.sky.properties.JwtProperties;
@@ -8,6 +9,7 @@ import com.sky.result.Result;
 import com.sky.service.EmployeeService;
 import com.sky.utils.JwtUtil;
 import com.sky.vo.EmployeeLoginVO;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,10 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/damin/employee")
+@RequestMapping("/admin/employee")
 @Slf4j//lombok的输入日志注解，该信息注解更完善，包含类的完善名，日志打印的时间
 public class EmployeeController {
     @Autowired
@@ -29,7 +32,6 @@ public class EmployeeController {
     private JwtProperties jwtProperties;
     /**
      * 登录
-     *
      * @return
      * @Param employeeLoginDTO
      */
@@ -66,4 +68,20 @@ public class EmployeeController {
     public Result<String> logout(){
         return Result.success();
     }
+
+    @PostMapping
+    @ApiOperation("新增员工")
+    public Result save(@RequestBody EmployeeDTO employeeDTO){
+        log.info("新员工 + {}"+employeeDTO);//->将前端接收的员工数据打印出来->前端发送数据存储在哪里？->请求类中，因此方法需要接收请求类
+        employeeService.save(employeeDTO);//->为什么使用employeeService对象调用save方法？
+                                         // ->将前端的请求交给service层的接口，通过接口来创建具体的实现类完成新建员工该进行的操作
+        return Result.success();
+    }
+
+
+
+
+
+
+
 }

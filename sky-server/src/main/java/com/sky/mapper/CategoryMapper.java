@@ -1,5 +1,7 @@
 package com.sky.mapper;
 
+import com.github.pagehelper.Page;
+import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -20,5 +22,10 @@ public interface CategoryMapper {
     //批量更新菜品(更新名称),返回影响行数,根据id或用户名进行更改
     int updateCategory(@Param("list") List<Category> category);
 
-
+    /**
+     * 分页查询
+     * @Param categoryPageQueryDto
+     * @return
+     */
+    Page<Category> pageQuery(CategoryPageQueryDTO categoryPageQueryDTO);
 }

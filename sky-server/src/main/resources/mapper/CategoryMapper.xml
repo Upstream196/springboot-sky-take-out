@@ -22,7 +22,6 @@
             #{id}
         </foreach>
     </delete>
-
     <!-- 批量修改  -->
     <!-- 修改多列，修改的是对象类型的数组   -->
     <update id="updateCategory">
@@ -54,5 +53,20 @@
             #{c.id}
         </foreach>
     </update>
+
+
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultType="com.sky.entity.Category">
+    select * from category
+    <where>
+        <if test="name !=null and name !=''">
+            and name like concat('%',#{name},'%')
+        </if>
+        <if test="type !=null">
+            and type =#{type}
+        </if>
+    </where>
+    order by sort asc, create_time desc
+    </select>
 
 </mapper>

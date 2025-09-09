@@ -1,6 +1,9 @@
 package com.sky.service;
 
+import com.github.pagehelper.Page;
+import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
+import com.sky.result.PageResult;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +20,6 @@ public interface CategoryService {
     //菜品修改
     int updateCategory(List<Category> category);
 
-
+    //分页查询
+    PageResult pageQuery(CategoryPageQueryDTO categoryPageQueryDTO);
 }
