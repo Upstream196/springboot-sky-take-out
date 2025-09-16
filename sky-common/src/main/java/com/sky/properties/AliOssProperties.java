@@ -1,0 +1,15 @@
+package com.sky.properties;
+
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+@Component
+@ConfigurationProperties(prefix = "sky.alioss") //将所有配置文件中以sky.alioss为前缀的配置项的值赋给该类对应的属性中去
+@Data
+public class AliOssProperties {
+    private String endpoint;
+    private String accessKeyId;
+    private String accessKeySecret;
+    private String bucketName;
+}
