@@ -1,6 +1,7 @@
 package com.sky.service;
 
 import com.github.pagehelper.Page;
+import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
 import com.sky.result.PageResult;
@@ -22,4 +23,10 @@ public interface CategoryService {
 
     //分页查询
     PageResult pageQuery(CategoryPageQueryDTO categoryPageQueryDTO);
+
+    //新增分类
+    void save(CategoryDTO categoryDTO);
+
+    //根据类型查询分类
+    List<Category> list(Integer type);
 }

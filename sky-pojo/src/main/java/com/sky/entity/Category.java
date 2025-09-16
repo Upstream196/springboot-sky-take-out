@@ -2,6 +2,8 @@ package com.sky.entity;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class Category {
 
@@ -15,11 +17,11 @@ public class Category {
 
     private Integer status;
 
-    private String create_time;
+    private LocalDateTime create_time;
 
-    private String update_time;
+    private LocalDateTime update_time;
 
-    private Integer create_user;
+    private Long create_user;
 
-    private Integer update_user;
+    private Long update_user;
 }

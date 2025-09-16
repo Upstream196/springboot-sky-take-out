@@ -1,7 +1,12 @@
 package com.sky.controller.adimin;
 
+import com.sky.dto.CategoryDTO;
 import com.sky.entity.Category;
+import com.sky.result.Result;
 import com.sky.service.CategoryService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +14,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin/category")
+@Api(tags = "分类相关接口")
+@Slf4j
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
@@ -47,5 +54,19 @@ public class CategoryController {
         }
     }
 
+    @PostMapping
+    @ApiOperation("新增分类")
+    public Result<String> save(@RequestBody CategoryDTO categoryDTO) {
+       log.info("新增分类：{}",categoryDTO);//Cannot resolve symbol 'log'->@Slf4j添加该注解解决原因？
+        categoryService.save(categoryDTO);
+        return Result.success();
+    }
 
+    //根据类型查询分类
+    @GetMapping("/list")
+    @ApiOperation("根据类型查询分类")
+    public Result<List<Category>> list(Integer type){
+        List<Category> list=categoryService.list(type);
+        return Result.success(list);
+    }
 }
