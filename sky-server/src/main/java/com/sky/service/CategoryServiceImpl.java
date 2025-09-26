@@ -57,11 +57,11 @@ public class CategoryServiceImpl implements CategoryService {
         category.setStatus(StatusConstant.DISABLE);
 
         //设置创建时间，修改时间，创建人，修改人
-        category.setCreate_time(LocalDateTime.now());
-        category.setUpdate_time(LocalDateTime.now());
+//        category.setCreate_time(LocalDateTime.now());
+//        category.setUpdate_time(LocalDateTime.now());
 //        category.setCreate_user(BaseContext.getCurrentId());
 //        category.setUpdate_user(BaseContext.getCurrentId());
-//        System.out.println("当前用户ID: " + BaseContext.getCurrentId());
+
         categoryMapper.insert(category);
 
 //        categoryMapper.insertCategory(category);
@@ -73,6 +73,8 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> list(Integer type) {
         return categoryMapper.list(type);
     }
+
+
 
 
 }

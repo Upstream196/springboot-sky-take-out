@@ -17,11 +17,11 @@ public class Category {
 
     private Integer status;
 
-    private LocalDateTime create_time;
+    private LocalDateTime createTime;
 
-    private LocalDateTime update_time;
+    private LocalDateTime updateTime;
 
-    private Long create_user;
+    private Long createUser;
 
-    private Long update_user;
+    private Long updateUser;
 }

@@ -13,7 +13,7 @@ public class JwtProperties {
      */
     private String adminSecretKey;
     private long adminTtl;
-    private String adminTokeName;
+    private String adminTokenName;
 
     /**
      * 用户端微信用户生成jwt令牌相关配置

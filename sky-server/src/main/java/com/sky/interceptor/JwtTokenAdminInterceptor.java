@@ -29,15 +29,19 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
             return true;
         }
         try{
-            String token=request.getHeader(jwtProperties.getAdminTokeName());
+            String token=request.getHeader(jwtProperties.getAdminTokenName());
 
             Claims claims= JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(),token);
 
-            Long empId=Long.valueOf((String) claims.get(JwtClaimsConstant.EMP_ID));
+//            Long empId=Long.valueOf((String) claims.get(JwtClaimsConstant.EMP_ID));
+            Long empId=Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
+
             log.info("登录的员工id：{}",empId);
+            log.info("当前线程id:{}",Thread.currentThread().getId());
             BaseContext.setCurrentId(empId);
             return true;
         }catch (Exception e){
+            log.error(">>> token 校验失败,期望字段：{}",e,JwtClaimsConstant.EMP_ID);
             response.setStatus(401);
             return false;
         }

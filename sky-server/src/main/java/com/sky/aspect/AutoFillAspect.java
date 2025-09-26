@@ -27,13 +27,13 @@ public class AutoFillAspect {
      * 切入点
      */
     @Pointcut("execution(* com.sky.mapper.*.*(..)) && @annotation(com.sky.annotation.AutoFill)")
-    public void pt(){}
+    public void autoFillPointcut() {}
 
     //前置通知，在通知中进行公共字段的赋值
-    @Before("pt()")
-    public void before(JoinPoint joinPoint) {
+    @Before("autoFillPointcut()")
+    public void autoFill(JoinPoint joinPoint) {
         //可先进行调试，是否能进入该方法，提前在mapper方法添加AutoFill注解
-        log.info("开始进行公共字段自动填充:{}",joinPoint);
+        log.info("开始进行公共字段自动填充");
         //通过jointPoint获取方法签名对象
         MethodSignature signature=(MethodSignature) joinPoint.getSignature();
         //通过方法签名对象获取@AutoFill注解对象
@@ -42,7 +42,7 @@ public class AutoFillAspect {
         OperationType operationType=autoFill.value();
 
         //joinPoint获取原始方法的参数数组
-        Object[]args=joinPoint.getArgs();
+        Object[] args = joinPoint.getArgs();
         if(args==null||args.length==0){
             return;
         }

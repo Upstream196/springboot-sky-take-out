@@ -9,8 +9,9 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface DishMapper {
-    @AutoFill(value = OperationType.INSERT)
-    void insert(Dish dish);
+
+    @AutoFill(OperationType.INSERT)
+    void save(Dish dish);
 
     /**
      * 根据分类id查询菜品数量

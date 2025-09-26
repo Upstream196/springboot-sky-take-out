@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -23,27 +24,21 @@ public class DishServiceImpl implements DishService {
     private DishFlavorMapper dishFlavorMapper;
 
     @Transactional
-    public void SaveWithFlavor(DishDTO dishDTO) {
+    @Override
+    public void save(DishDTO dishDTO) {
         Dish dish = new Dish();
 
         BeanUtils.copyProperties(dishDTO, dish);
 
         //向菜品表插入1条数据
-        dishMapper.insert(dish);
+        dishMapper.save(dish);
 
-        //获取insert语句生成的主键值
-        Long dishId = dish.getId();
-
-        List<DishFlavor> flavors = dishDTO.getFlavors();
-        if (flavors != null && flavors.size() > 0) {
-            flavors.forEach(dishFlavor -> {
-                dishFlavor.setDishId(dishId);
-            });
-            //向口味表插入n条数据
-            dishFlavorMapper.insertBatch(flavors);
-        }
+      List<DishFlavor> dishFlavors=dishDTO.getFlavors().stream().map(dishFlavor -> {
+          dishFlavor.setDishId(dish.getId());
+          return dishFlavor;
+      }).collect(Collectors.toList());
+      dishFlavorMapper.insertBatch(dishFlavors);
     }
-
 
 }
 

@@ -50,6 +50,8 @@ public class EmployeeController {
                 jwtProperties.getAdminSecretKey(),
                 jwtProperties.getAdminTtl(),
                 claims);
+        log.info("生成的token payload：{}",claims);
+        log.info("完整的token：{}",token);
         //由于EmployeeLoginVO 使用@Builder注解就可以使用链式构建对象
         EmployeeLoginVO employeeLoginVO = EmployeeLoginVO.builder()
                 .id(employee.getId())

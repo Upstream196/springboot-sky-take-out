@@ -11,7 +11,7 @@ public class CategoryDTO implements Serializable {
     private Long id;
 
     //类型1 菜品分类 2 套餐分类
-    private String type;
+    private Integer type;
 
     //分类名称
     private String name;

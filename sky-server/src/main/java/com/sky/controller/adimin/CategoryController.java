@@ -57,7 +57,9 @@ public class CategoryController {
     @PostMapping
     @ApiOperation("新增分类")
     public Result<String> save(@RequestBody CategoryDTO categoryDTO) {
-       log.info("新增分类：{}",categoryDTO);//Cannot resolve symbol 'log'->@Slf4j添加该注解解决原因？
+        log.info(">>> CategoryController.save() 线程={}", Thread.currentThread().getName());
+
+       log.info("新增分类：{}",categoryDTO);//Cannot resolve symbol 'log'->@Slf4j添加该注解解决原因？方法参数为什么不选择实体类？
         categoryService.save(categoryDTO);
         return Result.success();
     }
