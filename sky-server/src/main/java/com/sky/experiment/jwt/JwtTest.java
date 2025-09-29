@@ -19,15 +19,18 @@ public class JwtTest {
 
         System.out.println("🚀 开始JWT实验测试\n");
 
-        // 测试：使用我的实现生成JWT
-        System.out.println("📝 测试：生成JWT令牌");
+        // 测试1：生成JWT
+        System.out.println("📝 测试1：生成JWT令牌");
         String myJwt = MyJwtUtil.createMyJWT(secretKey, ttlMillis, claims);
 
         if (myJwt != null) {
-            System.out.println("✅ 实验成功！生成了JWT令牌");
-            System.out.println("📋 生成的JWT: " + myJwt);
-        } else {
-            System.out.println("❌ 实验失败，请检查错误信息");
+            // 测试2：解析JWT
+            System.out.println("🔍 测试2：解析JWT令牌");
+            MyJwtUtil.parseMyJWT(secretKey, myJwt);
+
+            // 测试3：错误密钥测试
+            System.out.println("🐛 测试3：错误密钥测试");
+            MyJwtUtil.parseMyJWT("wrong-key", myJwt);
         }
     }
 }
