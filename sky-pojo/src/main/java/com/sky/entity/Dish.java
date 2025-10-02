@@ -1,11 +1,17 @@
 package com.sky.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Dish implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -21,7 +27,7 @@ public class Dish implements Serializable {
     //描述信息
     private String description;
     //0停售 1起售
-    private Long status;
+    private Integer status;
 
     private LocalDateTime createTime;//LocalDateTime是什么类型
 

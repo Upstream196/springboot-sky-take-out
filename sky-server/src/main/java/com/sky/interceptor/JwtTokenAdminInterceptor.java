@@ -29,12 +29,13 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
             return true;
         }
         try{
+
+            //获取HTTP请求头中指定的头部值
             String token=request.getHeader(jwtProperties.getAdminTokenName());
-
-            Claims claims= JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(),token);
-
-//            Long empId=Long.valueOf((String) claims.get(JwtClaimsConstant.EMP_ID));
-            Long empId=Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
+            //解析令牌获取声明内容
+            Claims claims=JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(),token);
+            //获取员工ID
+            Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
 
             log.info("登录的员工id：{}",empId);
             log.info("当前线程id:{}",Thread.currentThread().getId());
@@ -46,5 +47,10 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
             return false;
         }
     }
-
+//String token = request.getHeader(jwtProperties.getAdminTokenName());
+//
+//            Claims claims= JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(),token);
+//
+////            Long empId=Long.valueOf((String) claims.get(JwtClaimsConstant.EMP_ID));
+//            Long empId=Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
 }

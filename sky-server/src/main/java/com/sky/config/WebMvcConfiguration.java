@@ -26,12 +26,16 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
 
     //注册自动义拦截器
-    protected void addInterceptors(InterceptorRegistry registry) {
-        log.info("开始注册自定义拦截器...");
-        registry.addInterceptor(jwtTokenAdminInterceptor)
-                .addPathPatterns("/admin/**")
-                .excludePathPatterns("/admin/employee/login");
-    }
+   protected void addInterceptors(InterceptorRegistry registry){
+       log.info("开始注册自定义拦截器");
+       //注册一个拦截器
+       registry.addInterceptor(jwtTokenAdminInterceptor)
+               //定义要拦截的URL路径
+               .addPathPatterns("/admin/**")
+               //定义需要从拦截规则排除的URL路径
+               .excludePathPatterns("/admin/employee/login");
+   }
+    
 
     //通过knife4j生成接口文档
     @Bean
@@ -56,6 +60,11 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         registry.addResourceHandler("webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
-
+//    protected void addInterceptors(InterceptorRegistry registry) {
+//        log.info("开始注册自定义拦截器...");
+//        registry.addInterceptor(jwtTokenAdminInterceptor)
+//                .addPathPatterns("/admin/**")
+//                .excludePathPatterns("/admin/employee/login");
+//    }
 
 }
