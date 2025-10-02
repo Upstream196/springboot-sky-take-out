@@ -36,3 +36,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# 忽略开发环境的配置文件
+application-dev.yml
