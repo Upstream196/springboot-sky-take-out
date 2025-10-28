@@ -103,6 +103,11 @@ public class DishServiceImpl implements DishService {
         dishMapper.update(dish);
     }
 
+    /**
+     * 根据id查询菜品和对应的口味数据
+     * @param id
+     * @return
+     */
     @Override
     public DishVO getByIdWithFlavor(Long id) {
         //根据id查询菜品数据
@@ -111,7 +116,9 @@ public class DishServiceImpl implements DishService {
         List<DishFlavor> dishFlavors=dishFlavorMapper.getByDishId(id);
         //将查询到的数据封装到VO
         DishVO dishVO=new DishVO();
+        //将dish参数的属性值赋值给dishVO参数中对应的属性上
         BeanUtils.copyProperties(dish,dishVO);
+        //通过set方法获取菜品口味的数据
         dishVO.setFlavors(dishFlavors);
 
         return dishVO;

@@ -17,6 +17,7 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import javax.print.Doc;
 import java.util.List;
 
 @Configuration
@@ -27,7 +28,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     //注册自动义拦截器
    protected void addInterceptors(InterceptorRegistry registry){
-       log.info("开始注册自定义拦截器");
+       log.info("开始注册自定义拦截器...");
        //注册一个拦截器
        registry.addInterceptor(jwtTokenAdminInterceptor)
                //定义要拦截的URL路径
@@ -39,18 +40,39 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     //通过knife4j生成接口文档
     @Bean
-    public Docket docket(){
+    public Docket docket1(){
         ApiInfo apiInfo=new ApiInfoBuilder()
                 .title("苍穹外卖项目接口文档")
                 .version("2.0")
                 .description("苍穹外卖项目接口文档")
                 .build();
         Docket docket=new Docket(DocumentationType.SWAGGER_2)
+                .groupName("管理端接口")
                 .apiInfo(apiInfo)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.sky.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.sky.controller.admin"))
                 .paths(PathSelectors.any())
                 .build();
+        return docket;
+    }
+
+    @Bean
+    public Docket docket2(){
+       log.info("准备生成接口文档...");
+       ApiInfo apiInfo = new ApiInfoBuilder()
+               .title("苍穹外卖项目接口文档")
+               .version("2.0")
+               .description("苍穹外卖项目接口文档")
+               .build();
+
+        Docket docket =new Docket(DocumentationType.SWAGGER_2)
+                .groupName("用户端接口")
+                .apiInfo(apiInfo)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.sky.controller.user"))
+                .paths(PathSelectors.any())
+                .build();
+
         return docket;
     }
 
@@ -60,11 +82,6 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         registry.addResourceHandler("webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
-//    protected void addInterceptors(InterceptorRegistry registry) {
-//        log.info("开始注册自定义拦截器...");
-//        registry.addInterceptor(jwtTokenAdminInterceptor)
-//                .addPathPatterns("/admin/**")
-//                .excludePathPatterns("/admin/employee/login");
-//    }
+
 
 }
