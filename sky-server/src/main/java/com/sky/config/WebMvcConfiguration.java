@@ -1,6 +1,7 @@
 package com.sky.config;
 
 import com.sky.interceptor.JwtTokenAdminInterceptor;
+import com.sky.interceptor.JwtTokenUserInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,8 +26,10 @@ import java.util.List;
 public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     @Autowired
     private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
+    @Autowired
+    private JwtTokenUserInterceptor jwtTokenUserInterceptor;
 
-    //注册自动义拦截器
+    //注册管理员自动义拦截器
    protected void addInterceptors(InterceptorRegistry registry){
        log.info("开始注册自定义拦截器...");
        //注册一个拦截器
@@ -36,7 +39,16 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                //定义需要从拦截规则排除的URL路径
                .excludePathPatterns("/admin/employee/login");
    }
-    
+
+   //注册用户自定义拦截器
+    protected void addInterceptor(InterceptorRegistry registry) {
+       log.info("开始注册自定义拦截器...");
+
+       registry.addInterceptor(jwtTokenUserInterceptor)
+               .addPathPatterns("/user/**")
+               .excludePathPatterns("/user/user/login")
+               .excludePathPatterns("/user/user/status");
+    }
 
     //通过knife4j生成接口文档
     @Bean

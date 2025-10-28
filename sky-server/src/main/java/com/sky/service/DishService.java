@@ -2,13 +2,14 @@ package com.sky.service;
 
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
+import com.sky.entity.Dish;
 import com.sky.result.PageResult;
 import com.sky.vo.DishVO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface DishService {
 
     void save(DishDTO dishDTO);
@@ -25,4 +26,7 @@ public interface DishService {
 
     //根据id修改菜品基本信息和对应的口味信息
     void updateWithFlavor(DishDTO dishDTO);
+
+    //条件查询菜品和口味
+    List<DishVO> listWithFlavor(Dish dish);
 }
