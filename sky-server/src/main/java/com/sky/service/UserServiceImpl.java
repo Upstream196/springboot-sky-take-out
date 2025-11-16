@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User wxLogin(UserLoginDTO userLoginDTO) {
        String openid = getOpenid(userLoginDTO.getCode());
-
+       //判断用户id是否为空
        if(openid == null){
            throw new LoginFailedException(MessageConstant.LOGIN_FAILED);
 

@@ -29,4 +29,9 @@ public interface DishService {
 
     //条件查询菜品和口味
     List<DishVO> listWithFlavor(Dish dish);
+
+    List<Dish> list(Long categoryId);
+
+
+//    void saveWithFlavor(DishDTO dishDTO);
 }
