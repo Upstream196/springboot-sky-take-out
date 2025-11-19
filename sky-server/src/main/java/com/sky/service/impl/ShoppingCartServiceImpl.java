@@ -71,4 +71,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         //传递含有用户id信息的购物车对象给mapper层
         return shoppingCartMapper.list(ShoppingCart.builder().userId(BaseContext.getCurrentId()).build());
     }
+
+    @Override
+    public void cleanShoppingCart() {
+        shoppingCartMapper.deleteByUserId(BaseContext.getCurrentId());
+    }
 }
