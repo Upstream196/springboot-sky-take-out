@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sky.mapper.OrderMapper">
+
+    <!-- 注意此时还有一部分属性未在orders类中添加，测试一下会出现什么报错 ->已添加，未添加控制台会显示缺失某个字段  -->
+    <insert id="insert" parameterType="Orders" useGeneratedKeys="true" keyProperty="id">
+        insert into orders
+        (number,status,user_id,address_book_id,order_time,checkout_time,pay_method,pay_status,amount,
+        remark,phone,address,consignee,estimated_delivery_time,delivery_status,pack_amount,tableware_number,
+         tableware_status)
+        values (#{number},#{status},#{userId},#{addressBookId},#{orderTime},#{checkoutTime},#{payMethod},#{payStatus},
+                #{amount},#{remark},#{phone},#{address},#{consignee},#{estimatedDeliveryTime},#{deliveryStatus},#{packAmount},
+                #{tablewareNumber},#{tablewareStatus})
+    </insert>
+
+</mapper>
