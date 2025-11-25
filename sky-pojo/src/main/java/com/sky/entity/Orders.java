@@ -1,11 +1,17 @@
 package com.sky.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Orders {
     /**
      * 订单状态 1待付款 2待接单 3已接单 4派送中 5已完成 6已取消
