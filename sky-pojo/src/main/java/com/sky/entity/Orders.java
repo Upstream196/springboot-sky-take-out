@@ -30,6 +30,7 @@ public class Orders {
     public static final Integer PAID = 1;
     public static final Integer REFUND = 2;
 
+    private static final long serialVersionUID = 1L;
 
     private Long id;
     //下单用户id
@@ -70,4 +71,12 @@ public class Orders {
     private int tablewareNumber;
     //餐具数量状态 1按量提供 0选择具体数量
     private Integer tablewareStatus;
+    //订单取消原因
+    private String cancelReason;
+    //订单拒绝原因
+    private String rejectionReason;
+    //订单取消时间
+    private LocalDateTime cancelTime;
+    //送达时间
+    private LocalDateTime deliveryTime;
 }

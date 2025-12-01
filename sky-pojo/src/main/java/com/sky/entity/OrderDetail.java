@@ -1,10 +1,16 @@
 package com.sky.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderDetail  implements Serializable { //->Serializable这个接口的作用是什么？
 
     private static final long serialVersionUID = 1L;//->这段代码的作用是什么？
@@ -16,7 +22,7 @@ public class OrderDetail  implements Serializable { //->Serializable这个接口
     private Long orderId;
     //菜品id
     private Long dishId;
-    //套餐
+    //套餐id
     private Long setmealId;
     //口味
     private String dishFlavor;

@@ -2,6 +2,7 @@ package com.sky.config;
 
 import com.sky.interceptor.JwtTokenAdminInterceptor;
 import com.sky.interceptor.JwtTokenUserInterceptor;
+import com.sky.json.JacksonObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -97,6 +98,21 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         registry.addResourceHandler("webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
+    /**
+     * 扩展 Spring MVC 框架的消息转换器
+     */
+    @Override // 注意是 @Override
+    protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        log.info("扩展消息转换器...");
 
+        // 1. 创建一个消息转换器对象
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+
+        // 2. 为消息转换器设置 JacksonObjectMapper (它已配置好时间格式)
+        converter.setObjectMapper(new JacksonObjectMapper());
+
+        // 3. 将我们自己的消息转换器加入到容器中，并设置索引为 0 (排在第一位，优先使用)
+        converters.add(0, converter);
+    }
 
 }

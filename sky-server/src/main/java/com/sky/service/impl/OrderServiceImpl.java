@@ -1,8 +1,10 @@
 package com.sky.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
+import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.dto.OrdersPaymentDTO;
 import com.sky.dto.OrdersSubmitDTO;
 import com.sky.entity.*;
@@ -10,20 +12,28 @@ import com.sky.exception.AddressBookBusinessException;
 import com.sky.exception.OrderBusinessException;
 import com.sky.exception.ShoppingCartBusinessException;
 import com.sky.mapper.*;
+import com.sky.result.PageResult;
 import com.sky.service.OrderService;
 import com.sky.utils.WeChatPayUtil;
 import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderSubmitVO;
+import com.sky.vo.OrderVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import java.math.BigDecimal;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -166,5 +176,80 @@ public class OrderServiceImpl implements OrderService {
                 .build();
         //更新订单数据
         orderMapper.update(orders);
+    }
+
+    /**
+     * 用户端订单分页查询
+     * @param ordersPageQueryDTO
+     * @return
+     */
+    @Override
+    public PageResult pageQueryUser(OrdersPageQueryDTO ordersPageQueryDTO) {
+        log.info("输入DTO:{}", ordersPageQueryDTO.toString());
+        Long currentId = BaseContext.getCurrentId();
+        log.warn("【历史订单查询】当前线程用户ID = {}", currentId);
+
+        //去除@RequestBody会出现什么结果？
+        //设置页面框架
+        PageHelper.startPage(ordersPageQueryDTO.getPage(),ordersPageQueryDTO.getPageSize());
+        //获取订单基础信息
+        //获取当前登录的用户id与订单状态
+        OrdersPageQueryDTO dto = new OrdersPageQueryDTO();  //创建新的dto对象用于设置用户id与状态
+        dto.setUserId(BaseContext.getCurrentId());          //若使用参数dto对象会出现什么结果？
+        dto.setStatus(ordersPageQueryDTO.getStatus());
+
+        //分页条件查询
+        Page<Orders> page = orderMapper.pageQuery(dto);
+        List<OrderVO> list = new ArrayList();
+        log.info("查询结果：total={},list size={}",page.getTotal(),list.size());
+
+        //获取订单详细内容
+        if(page !=null && page.getTotal() >0){
+            for(Orders orders : page){
+                //获取订单id
+                Long orderId = orders.getId();
+                //查看订单明细
+                List<OrderDetail> orderDetails = orderDetailMapper.getByOrderId(orderId);
+                //创建视图对象，将订单基础信息与详细信息封装到视图对象中
+                OrderVO orderVO = new OrderVO();
+                BeanUtils.copyProperties(orders, orderVO);
+                orderVO.setOrderDetailList(orderDetails);
+                log.info("处理订单ID={}，details size={}", orders.getId(),orderDetails.size());
+                //修复添加orderDishes -->为订单列表页提供一个快速预览的“点了啥”字符串
+                List<String> orderDishList = orderDetails.stream().map(x -> {
+                    String orderDish = x.getName() + "*" + x.getNumber() + ";";
+                    return orderDish;
+                }).collect(Collectors.toList());
+
+                // 将拼接好的字符串赋值给 orderVO
+                String orderDishes = String.join("", orderDishList);
+                orderVO.setOrderDishes(orderDishes);
+
+
+                list.add(orderVO);
+            }
+        }
+
+        return new PageResult(page.getTotal(),list);
+    }
+
+    /**
+     * 查询订单详情
+     * @param id
+     * @return
+     */
+    @Override
+    public OrderVO details(Long id) {
+        //根据id查询订单
+        Orders orders = orderMapper.getById(id);
+        //查询该订单对应的菜品/套餐明细
+        List<OrderDetail> orderDetailList = orderDetailMapper.getByOrderId(orders.getId());
+
+        //将该订单及其详情封装到OrderVO并返回
+        OrderVO orderVO = new OrderVO();
+        BeanUtils.copyProperties(orders, orderVO);
+        orderVO.setOrderDetailList(orderDetailList);
+
+        return orderVO;
     }
 }
