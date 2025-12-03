@@ -25,19 +25,19 @@
                 rejection_reason=#{rejectionReason},
             </if>
             <if test="cancelTime !=null">
-                cancel_time=#{cancelTime}
+                cancel_time=#{cancelTime},
             </if>
             <if test="payStatus !=null">
-                pay_status=#{payStatus}
+                pay_status=#{payStatus},
             </if>
             <if test="payMethod !=null">
-                pay_method=#{payMethod}
+                pay_method=#{payMethod},
             </if>
             <if test="checkoutTime !=null">
-                check_out_time=#{checkoutTime}
+                check_out_time=#{checkoutTime},
             </if>
             <if test="status !=null">
-                status=#{status}
+                status=#{status},
             </if>
             <if test="deliveryTime !=null">
                 delivery_time =#{deliveryTime}
