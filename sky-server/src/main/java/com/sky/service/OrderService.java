@@ -42,6 +42,15 @@ public interface OrderService {
      * 用户取消订单
      * @param id
      */
-    void userCancelById(Long id) ; ;
+    void userCancelById(Long id) ;
+
+    /**
+     * 再来一单
+     * @param id
+     */
+    void repetition(Long id);
+
+
+    ;
 
 }
