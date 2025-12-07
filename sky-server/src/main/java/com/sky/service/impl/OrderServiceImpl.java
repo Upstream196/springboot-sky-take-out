@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
-import com.sky.dto.OrdersConfirmDTO;
-import com.sky.dto.OrdersPageQueryDTO;
-import com.sky.dto.OrdersPaymentDTO;
-import com.sky.dto.OrdersSubmitDTO;
+import com.sky.dto.*;
 import com.sky.entity.*;
 import com.sky.exception.AddressBookBusinessException;
 import com.sky.exception.OrderBusinessException;
@@ -409,5 +406,91 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         orderMapper.update(orders);
+    }
+
+    /**
+     * 拒单
+     * @param ordersRejectionDTO
+     */
+    @Override
+    public void rejection(OrdersRejectionDTO ordersRejectionDTO) {
+        //根据id查询订单
+        Orders orders = orderMapper.getById(ordersRejectionDTO.getId());
+
+        //订单只有存在且状态为2(待接单)才可以接单
+        if(orders ==null || !orders.getStatus().equals(Orders.TO_BE_CONFIRMED)){
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+
+        //拒单需要退款，根据订单id更新订单状态、拒单原因、取消时间
+        Orders o = new Orders();
+        o.setId(orders.getId());
+        o.setStatus(Orders.CANCELLED);
+        o.setRejectionReason(ordersRejectionDTO.getRejectionReason());
+        o.setCancelTime(LocalDateTime.now());
+
+        orderMapper.update(o);
+    }
+
+    /**
+     * 取消订单
+     * @param ordersCancelDTO
+     */
+    @Override
+    public void cancel(OrdersCancelDTO ordersCancelDTO) {
+        //根据id查询订单
+        Orders orders = orderMapper.getById(ordersCancelDTO.getId());
+
+        //管理端取消订单需要退款，根据订单id更新订单状态、取消原因、取消时间
+        Orders o = new Orders();
+        o.setId(ordersCancelDTO.getId());
+        o.setStatus(Orders.CANCELLED);
+        o.setCancelReason(ordersCancelDTO.getCancelReason());
+        o.setCancelTime(LocalDateTime.now());
+        orderMapper.update(o);
+    }
+
+    /**
+     * 派送订单
+     * @param id
+     */
+    @Override
+    public void delivery(Long id) {
+        //根据id查询订单
+        Orders orders = orderMapper.getById(id);
+
+        //校验订单是否存在，且状态为3
+        if(orders == null || !orders.getStatus().equals(Orders.CONFIRMED)) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+
+        Orders o = new Orders();
+        o.setId(orders.getId());
+        //更新订单状态，改为派送中
+        o.setStatus(Orders.DELIVERY_IN_PROGRESS);
+        orderMapper.update(o);
+    }
+
+    /**
+     * 完成订单
+     * @param id
+     */
+    @Override
+    public void complete(Long id) {
+        //根据id查询订单
+        Orders orders = orderMapper.getById(id);
+
+        //校验订单是否存在，且状态为4
+        if(orders == null || !orders.getStatus().equals(Orders.DELIVERY_IN_PROGRESS)) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+
+        Orders o = new Orders();
+        o.setId(orders.getId());
+        //更新订单状态，状态转为完成
+        o.setStatus(Orders.COMPLETED);
+        o.setDeliveryTime(LocalDateTime.now());
+
+        orderMapper.update(o);
     }
 }
