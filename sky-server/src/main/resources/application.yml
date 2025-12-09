@@ -70,4 +70,5 @@ sky:
 
   shop:
     address: ${sky.shop.address}
+  baidu:
     ak: ${sky.baidu.ak}
