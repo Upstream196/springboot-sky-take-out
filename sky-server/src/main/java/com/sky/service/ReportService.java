@@ -1,9 +1,11 @@
 package com.sky.service;
 
+import com.sky.vo.OrderReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public interface ReportService {
     /**
@@ -22,4 +24,20 @@ public interface ReportService {
      */
     UserReportVO getUserStatistics(LocalDate begin, LocalDate end);
 
+    /**
+     * 根据时间区间统计订单数量
+     * @param begin
+     * @param end
+     * @return
+     */
+    OrderReportVO getOrderStatistics(LocalDate begin, LocalDate end);
+
+    /**
+     * 根据时间区间统计指定状态的订单数量
+     * @param beginTime
+     * @param endTime
+     * @param status
+     * @return
+     */
+    Integer getOrderCount(LocalDateTime beginTime, LocalDateTime endTime, Integer status);
 }
