@@ -36,7 +36,7 @@ public interface ReportService {
      * 根据时间区间统计指定状态的订单数量
      * @param beginTime
      * @param endTime
-     * @param o
+     * @param status
      * @return
      */
     Integer getOrderCount(LocalDateTime beginTime, LocalDateTime endTime, Integer status);
