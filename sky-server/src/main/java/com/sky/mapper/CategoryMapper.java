@@ -19,11 +19,11 @@ public interface CategoryMapper {
     //添加菜品分类，返回影响的行数
     int insertCategory(@Param("category") List<Category> category);
 
-    //根据id删除菜品分类，返回影响的行数
-    int deleteCategory(@Param("ids") List<Integer> ids);
+    /**
+     * 删除分类
+     */
+    void deleteCategory(Long id);
 
-    //批量更新菜品(更新名称),返回影响行数,根据id或用户名进行更改
-    int updateCategory(@Param("list") List<Category> category);
 
     /**
      * 分页查询
@@ -43,4 +43,9 @@ public interface CategoryMapper {
      */
     List<Category> list(Integer type);
 
+    /**
+     * 修改分类
+     * @param category
+     */
+    void update(Category category);
 }

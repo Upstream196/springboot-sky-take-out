@@ -81,6 +81,15 @@ public interface SetmealMapper {
      * @return
      */
     Integer countByMap(Map map);
+
+    /**
+     * 根据分类id查询菜品数量
+     * @param id
+     * @return
+     */
+    @Select("select count(id) from setmeal where category_id = #{categoryId}")
+    Integer countByCategoryId(Long id);
+
 }
 
 
